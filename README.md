@@ -8,3 +8,4 @@ sample for pokedex
 https://github.com/zsoltk/compose-pokedex<br>
 https://github.com/mrcsxsiq/Kotlin-Pokedex<br>
 https://github.com/zsoltk/compose-router<br>
+https://www.pokemon.com/us/pokedex/<br>
