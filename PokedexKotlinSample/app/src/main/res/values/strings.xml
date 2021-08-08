@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">PokedexKotlinSample</string>
+    <string name="search_pokemons">If empty text, search all pokemon`s</string>
+    <string name="retry">Retry</string>
+    <string name="tap_to_retry">There was an error\ntap to retry</string>
+    <string name="statistics">Base Stats</string>
+    <string name="confirm_disclaimer">Continue</string>
+    <string name="scroll_up_indicator">Scroll up indicator</string>
 </resources>

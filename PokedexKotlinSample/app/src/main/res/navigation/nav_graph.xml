@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/pokemonListFragment">
+
+    <fragment
+        android:id="@+id/pokemonListFragment"
+        android:name="com.example.pokedexkotlinsample.presentation.list.PokemonListFragment"
+        android:label="List"
+        tool:layout="@layout/fragment_pokemon_list">
+        <action
+            android:id="@+id/to_pokemonStatsFragment"
+            app:destination="@id/pokemonStatsFragment"
+            app:enterAnim="@anim/app_nav_default_enter_anim"
+            app:exitAnim="@anim/app_nav_default_exit_anim" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/pokemonStatsFragment"
+        android:name="com.example.pokedexkotlinsample.presentation.stats.PokemonStatsFragment"
+        android:label="Stats"
+        tool:layout="@layout/fragment_pokemon_stats">
+
+        <argument
+            android:name="pokemon_result"
+            app:argType="com.example.pokedexkotlinsample.domain.model.PokemonResult"
+            app:nullable="false" />
+
+        <argument
+            android:name="dominant_color"
+            android:defaultValue="0"
+            app:argType="integer" />
+        <argument
+            android:name="picture_url"
+            app:argType="string"
+            app:nullable="false" />
+    </fragment>
+</navigation>
