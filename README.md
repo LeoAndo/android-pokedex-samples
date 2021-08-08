@@ -2,7 +2,8 @@
 sample for pokedex
 
 
-
+# capture
+<img src="/capture/capture.gif" width=320 />
 
 # refs
 https://github.com/zsoltk/compose-pokedex<br>
