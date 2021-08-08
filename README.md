@@ -5,6 +5,6 @@ sample for pokedex
 
 
 # refs
-https://github.com/zsoltk/compose-pokedex
-https://github.com/mrcsxsiq/Kotlin-Pokedex
-https://github.com/zsoltk/compose-router
+https://github.com/zsoltk/compose-pokedex<br>
+https://github.com/mrcsxsiq/Kotlin-Pokedex<br>
+https://github.com/zsoltk/compose-router<br>
