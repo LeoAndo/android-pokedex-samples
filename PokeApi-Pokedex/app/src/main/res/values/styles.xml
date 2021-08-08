@@ -1,19 +1,15 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-
         <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryDark">@color/green</item>
         <item name="colorAccent">@color/yellow</item>
-
     </style>
 
     <style name="SplashTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_image</item>
         <item name="android:statusBarColor">@color/green</item>
         <item name="android:navigationBarColor">@color/green</item>
-
-
     </style>
 
     <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
@@ -22,7 +18,6 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">false</item>
         <item name="android:windowIsFloating">false</item>
-
     </style>
 
     <style name="CardAppearance" parent="ShapeAppearance.MaterialComponents">
@@ -40,9 +35,7 @@
     </style>
 
     <style name="toolbar_theme" parent="ThemeOverlay.MaterialComponents.Toolbar.Primary">
-
         <item name="android:textColorPrimary">@color/white</item>
-
         <item name="colorOnPrimary">@color/white</item>
     </style>
 
