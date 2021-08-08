@@ -12,17 +12,11 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 
-/**
- *created by Ronnie Otieno on 20-Dec-20.
- **/
-
 @HiltViewModel
 class PokemonListViewModel @Inject constructor(
     private val pokemonRepository: PokemonRepository,
     dataStoreRepository: DataStoreRepository
-) :
-    ViewModel() {
-
+) : ViewModel() {
     val isDialogShown = dataStoreRepository.isDialogShownFlow
 
     private var currentResult: Flow<PagingData<PokemonResult>>? = null

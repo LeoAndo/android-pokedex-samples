@@ -39,7 +39,6 @@ class PokemonStatsFragment : Fragment(R.layout.fragment_pokemon_stats) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding = FragmentPokemonStatsBinding.bind(view)
         val argument = arguments?.let { args.fromBundle(it) }
         val pokemonResult = argument?.pokemonResult
