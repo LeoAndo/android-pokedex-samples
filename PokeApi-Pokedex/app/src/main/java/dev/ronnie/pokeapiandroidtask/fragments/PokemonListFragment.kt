@@ -36,11 +36,6 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-/**
- *created by Ronnie Otieno on 20-Dec-20.
- **/
-
-
 @AndroidEntryPoint
 @SuppressLint("ClickableViewAccessibility")
 class PokemonListFragment : Fragment(R.layout.fragment_pokemon_list) {
