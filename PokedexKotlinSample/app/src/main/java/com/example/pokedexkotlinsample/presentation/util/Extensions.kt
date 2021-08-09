@@ -1,11 +1,4 @@
-package com.example.pokedexkotlinsample.presentation
-
-import android.content.Context
-import android.widget.Toast
-
-fun Context.toast(message: String) {
-    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-}
+package com.example.pokedexkotlinsample.presentation.util
 
 fun String.extractId() = this.substringAfter("pokemon").replace("/", "").toInt()
 

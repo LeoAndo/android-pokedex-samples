@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.example.pokedexkotlinsample.data.api.PokemonService
 import com.example.pokedexkotlinsample.data.api.response.stats.PokemonStatsResponse
 import com.example.pokedexkotlinsample.data.apiCall
-import com.example.pokedexkotlinsample.presentation.extractId
+import com.example.pokedexkotlinsample.presentation.util.extractId
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

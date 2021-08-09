@@ -9,21 +9,20 @@ import androidx.paging.PagingDataAdapter
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.target.DrawableImageViewTarget
 import com.bumptech.glide.request.transition.Transition
 import com.example.pokedexkotlinsample.R
 import com.example.pokedexkotlinsample.databinding.ListItemPokemonBinding
 import com.example.pokedexkotlinsample.domain.model.PokemonResult
-import com.example.pokedexkotlinsample.presentation.extractId
-import com.example.pokedexkotlinsample.presentation.getGifUrl
-import com.example.pokedexkotlinsample.presentation.getPictureUrl
+import com.example.pokedexkotlinsample.presentation.util.extractId
+import com.example.pokedexkotlinsample.presentation.util.getGifUrl
+import com.example.pokedexkotlinsample.presentation.util.getPictureUrl
 
 
 class PokemonAdapter(private val navigate: (PokemonResult, Int, String) -> Unit) :
-    PagingDataAdapter<PokemonResult, PokemonAdapter.VH>(DIFF_CALLBACK) {
+    PagingDataAdapter<PokemonResult, PokemonAdapter.VH>(DIFF_CALLBACK), ImageLoadable {
 
     override fun onBindViewHolder(holder: VH, position: Int) {
         val data = getItem(position)!!
@@ -55,11 +54,11 @@ class PokemonAdapter(private val navigate: (PokemonResult, Int, String) -> Unit)
         private fun loadImage(binding: ListItemPokemonBinding, pokemonResult: PokemonResult) {
             pictureUrl = pokemonResult.url.getGifUrl()
             binding.apply {
-                Glide.with(root)
-                    .load(pokemonResult.url.getPictureUrl())
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .error(R.drawable.ic_error)
-                    .into(object : DrawableImageViewTarget(pokemonItemImage) {
+                val requestBuilder: RequestBuilder<Drawable> = pokemonItemImage.createGlideRequestBuilder(
+                    imageUrl = pokemonResult.url.getPictureUrl(),
+                    fitCenter = true
+                )
+                requestBuilder.into(object : DrawableImageViewTarget(pokemonItemImage) {
                         override fun onResourceReady(
                             resource: Drawable,
                             transition: Transition<in Drawable>?
@@ -73,9 +72,10 @@ class PokemonAdapter(private val navigate: (PokemonResult, Int, String) -> Unit)
                             Palette.Builder(bitmap).generate {
                                 it?.let { palette ->
                                     dominantColor = palette.getDominantColor(
-                                        ContextCompat.getColor(root.context, R.color.white)
+                                        ContextCompat.getColor(root.context, R.color.black)
                                     )
                                     pokemonItemImage.setBackgroundColor(dominantColor)
+                                    pokemonItemTitle.setTextColor(dominantColor)
                                 }
                             }
                         }

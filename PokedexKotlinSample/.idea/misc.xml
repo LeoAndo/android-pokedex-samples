@@ -5,9 +5,10 @@
       <map>
         <entry key="app/src/main/res/drawable/background.xml" value="0.2222222222222222" />
         <entry key="app/src/main/res/drawable/ic_baseline_search.xml" value="0.20729166666666668" />
-        <entry key="app/src/main/res/drawable/ic_error.xml" value="0.1648148148148148" />
+        <entry key="app/src/main/res/drawable/ic_error.xml" value="0.375" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.20729166666666668" />
         <entry key="app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.2222222222222222" />
+        <entry key="app/src/main/res/drawable/ic_place_holder.xml" value="2.053125" />
         <entry key="app/src/main/res/drawable/ic_pokeball.xml" value="0.265625" />
         <entry key="app/src/main/res/drawable/ic_thank_you.xml" value="0.20833333333333334" />
         <entry key="app/src/main/res/drawable/progress_bar_drawable.xml" value="0.20729166666666668" />

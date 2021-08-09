@@ -31,38 +31,37 @@
                     <ImageView
                         android:id="@+id/pokemon_item_image"
                         android:layout_width="0dp"
-                        android:layout_height="@dimen/pokemon_image_height"
+                        android:layout_height="100dp"
                         android:layout_marginTop="10dp"
                         android:contentDescription="@null"
-                        android:scaleType="fitCenter"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:src="@drawable/pokemon_4" />
 
-                    <TextView
-                        android:id="@+id/pokemon_item_height"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:paddingVertical="16dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/pokemon_item_image"
-                        tools:text="0.6 metres" />
-
-                    <TextView
-                        android:id="@+id/pokemon_item_weight"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:paddingVertical="16dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/pokemon_item_image"
-                        tools:text="8.5kgs" />
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/pokemon_item_height"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:paddingVertical="16dp"
+                    android:textColor="@color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/card"
+                    tools:text="0.6 metres" />
+
+                <TextView
+                    android:id="@+id/pokemon_item_weight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:paddingVertical="16dp"
+                    android:textColor="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/card"
+                    tools:text="8.5kgs" />
 
                 <TextView
                     android:id="@+id/stats"
@@ -70,7 +69,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:text="@string/statistics"
-                    android:textAppearance="?attr/textAppearanceListItem"
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -84,9 +82,8 @@
                     android:layout_marginTop="10dp"
                     android:clipToPadding="false"
                     android:nestedScrollingEnabled="false"
-                    android:paddingStart="@dimen/card_side_margin"
-                    android:paddingTop="@dimen/card_side_margin"
-                    android:paddingEnd="@dimen/card_side_margin"
+                    android:paddingHorizontal="10dp"
+                    android:paddingTop="10dp"
                     android:paddingBottom="?actionBarSize"
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     app:layout_constraintTop_toBottomOf="@+id/stats"
