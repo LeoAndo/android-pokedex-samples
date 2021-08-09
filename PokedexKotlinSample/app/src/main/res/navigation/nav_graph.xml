@@ -8,7 +8,6 @@
     <fragment
         android:id="@+id/pokemonListFragment"
         android:name="com.example.pokedexkotlinsample.presentation.list.PokemonListFragment"
-        android:label="List"
         tool:layout="@layout/fragment_pokemon_list">
         <action
             android:id="@+id/to_pokemonStatsFragment"
