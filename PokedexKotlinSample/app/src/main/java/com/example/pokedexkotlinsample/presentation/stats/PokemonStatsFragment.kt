@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 class PokemonStatsFragment : Fragment(R.layout.fragment_pokemon_stats), ImageLoadable {
 
     private val binding by viewBindings(FragmentPokemonStatsBinding::bind)
-    private val adapter = StatsAdapter()
+    private lateinit var adapter: StatsAdapter
     private val args by navArgs<PokemonStatsFragmentArgs>()
     private val viewModel: PokemonStatsViewModel by viewModels()
     private val exceptionHandler =
@@ -30,7 +30,7 @@ class PokemonStatsFragment : Fragment(R.layout.fragment_pokemon_stats), ImageLoa
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val pokemon = args.pokemon
-
+        adapter = StatsAdapter(pokemon.dominantColor)
 
         binding.apply {
             // set TextColor.

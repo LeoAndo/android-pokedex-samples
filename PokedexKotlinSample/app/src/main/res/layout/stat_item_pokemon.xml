@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginBottom="24dp"
+        android:layout_margin="24dp"
         app:cardCornerRadius="12dp"
         app:cardElevation="8dp"
         app:cardPreventCornerOverlap="false">
@@ -14,33 +14,30 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp">
+            android:padding="24dp">
 
-            <ProgressBar
-                android:id="@+id/progress_circular"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_centerInParent="true"
-                android:layout_centerHorizontal="true"
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/progress_stats"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:indeterminate="false"
                 android:max="255"
-                android:progress="170"
-                android:progressDrawable="@drawable/progress_bar_drawable"
-                android:secondaryProgress="255"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:progress="170"
+                tools:secondaryProgress="255" />
 
             <TextView
                 android:id="@+id/stat_count"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
                 android:textAlignment="center"
                 android:textColor="@color/black"
-                app:layout_constraintBottom_toBottomOf="@+id/progress_circular"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/progress_stats"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -52,7 +49,7 @@
                 android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/progress_circular" />
+                app:layout_constraintTop_toBottomOf="@+id/stat_count" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

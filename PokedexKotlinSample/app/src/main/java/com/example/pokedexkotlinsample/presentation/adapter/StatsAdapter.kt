@@ -2,6 +2,7 @@ package com.example.pokedexkotlinsample.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.ColorInt
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pokedexkotlinsample.data.api.response.stats.Stat
 import com.example.pokedexkotlinsample.databinding.StatItemPokemonBinding
@@ -10,7 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class StatsAdapter :
+class StatsAdapter(@ColorInt val indicatorColor: Int = 0) :
     RecyclerView.Adapter<StatsAdapter.VH>() {
     private val stats = mutableListOf<Stat>()
 
@@ -40,15 +41,13 @@ class StatsAdapter :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(stat: Stat) {
             binding.apply {
-                val mProgress = progressCircular
-                mProgress.secondaryProgress = MAX_BASE_STATE
-                mProgress.max = MAX_BASE_STATE
-
-                //The increment animation on progress bar is achieved by this.
-                CoroutineScope(Dispatchers.Default).launch {
+                if (indicatorColor != 0) {
+                    progressStats.setIndicatorColor(indicatorColor)
+                }
+                CoroutineScope(Dispatchers.Main).launch {
                     var state = 0
                     while (state <= stat.base_stat) {
-                        mProgress.progress = state
+                        progressStats.progress = state
                         state++
                         delay(30)
                     }
@@ -66,7 +65,6 @@ class StatsAdapter :
     }
 
     companion object {
-        private const val MAX_BASE_STATE = 255
         private const val NAME_DELIMITER = "-"
     }
 }
