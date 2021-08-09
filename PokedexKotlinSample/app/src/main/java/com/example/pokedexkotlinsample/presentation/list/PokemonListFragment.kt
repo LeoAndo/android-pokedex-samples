@@ -17,7 +17,8 @@ import com.example.pokedexkotlinsample.domain.model.PokemonResult
 import com.example.pokedexkotlinsample.presentation.adapter.AppLoadStateAdapter
 import com.example.pokedexkotlinsample.presentation.adapter.PokemonAdapter
 import com.example.pokedexkotlinsample.presentation.adapter.PokemonAdapter.Companion.PRODUCT_VIEW_TYPE
-import com.example.pokedexkotlinsample.presentation.toast
+import com.example.pokedexkotlinsample.presentation.util.OnRetryConnectionListener
+import com.example.pokedexkotlinsample.presentation.util.PokemonExceptionHandler
 import com.example.pokedexkotlinsample.utils.viewBindings
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -39,6 +40,8 @@ class PokemonListFragment : Fragment(R.layout.fragment_pokemon_list) {
                 pictureUrl
             )
         }
+    private val exceptionHandler =
+        PokemonExceptionHandler(fragment = this, onUnAuthorizedAction = {})
 
     @InternalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -46,6 +49,11 @@ class PokemonListFragment : Fragment(R.layout.fragment_pokemon_list) {
         setupListAdapter()
         observeFlowData()
         setupSearchView()
+        exceptionHandler.setOnRetryConnectionListener(object : OnRetryConnectionListener {
+            override fun onRetry() {
+                adapter.refresh()
+            }
+        })
     }
 
     private fun setupListAdapter() {
@@ -64,8 +72,7 @@ class PokemonListFragment : Fragment(R.layout.fragment_pokemon_list) {
                 else -> null
             }
             errorState?.let {
-                // TODO
-                requireContext().toast("エラーハンドリングを行う")
+                exceptionHandler.handleError(it.error)
             }
         }
 

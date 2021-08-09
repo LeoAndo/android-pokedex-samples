@@ -6,4 +6,8 @@
     <string name="statistics">Base Stats</string>
     <string name="confirm_disclaimer">Continue</string>
     <string name="scroll_up_indicator">Scroll up indicator</string>
+    <string name="network_error_dialog_title">network error</string>
+    <string name="network_error_dialog_message">Retry to network communicate again?</string>
+    <string name="un_authorized_dialog_title">UnSplash api key invalid</string>
+    <string name="un_authorized_dialog_message">Please settings api key.</string>
 </resources>
