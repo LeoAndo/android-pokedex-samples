@@ -12,6 +12,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.target.DrawableImageViewTarget
 import com.bumptech.glide.request.transition.Transition
+import com.example.pokedexkotlinsample.R
 import com.example.pokedexkotlinsample.databinding.ListItemPokemonBinding
 import com.example.pokedexkotlinsample.domain.model.PokemonResult
 import com.example.pokedexkotlinsample.presentation.extractId
@@ -55,6 +56,7 @@ class PokemonAdapter(private val navigate: (PokemonResult, Int, String) -> Unit)
                 Glide.with(root)
                     .load(pokemonResult.url.getPictureUrl())
                     .transition(DrawableTransitionOptions.withCrossFade())
+                    .error(R.drawable.ic_error)
                     .into(object : DrawableImageViewTarget(pokemonItemImage) {
                         override fun onLoadFailed(errorDrawable: Drawable?) {
                             super.onLoadFailed(errorDrawable)

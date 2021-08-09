@@ -16,8 +16,11 @@ import com.bumptech.glide.request.transition.Transition
 import com.example.pokedexkotlinsample.R
 import com.example.pokedexkotlinsample.databinding.FragmentPokemonStatsBinding
 import com.example.pokedexkotlinsample.presentation.adapter.StatsAdapter
+import com.example.pokedexkotlinsample.presentation.util.OnRetryConnectionListener
+import com.example.pokedexkotlinsample.presentation.util.PokemonExceptionHandler
 import com.example.pokedexkotlinsample.utils.viewBindings
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class PokemonStatsFragment : Fragment(R.layout.fragment_pokemon_stats) {
@@ -26,6 +29,8 @@ class PokemonStatsFragment : Fragment(R.layout.fragment_pokemon_stats) {
     private val adapter = StatsAdapter()
     private val args by navArgs<PokemonStatsFragmentArgs>()
     private val viewModel: PokemonStatsViewModel by viewModels()
+    private val exceptionHandler =
+        PokemonExceptionHandler(fragment = this, onUnAuthorizedAction = {})
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -38,6 +43,7 @@ class PokemonStatsFragment : Fragment(R.layout.fragment_pokemon_stats) {
             Glide.with(root)
                 .load(args.pictureUrl)
                 .transition(DrawableTransitionOptions.withCrossFade())
+                .error(R.drawable.ic_error)
                 .into(object : DrawableImageViewTarget(pokemonItemImage) {
                     override fun onResourceReady(
                         resource: Drawable,
@@ -50,10 +56,7 @@ class PokemonStatsFragment : Fragment(R.layout.fragment_pokemon_stats) {
                     }
                 })
         }
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            binding.progressCircular.isVisible = true
-            viewModel.getPokemonStats(args.pokemonResult.url)
-        }
+        getPokemonStats()
         viewModel.pokemonStatsResponse.observe(viewLifecycleOwner, { response ->
             binding.progressCircular.isVisible = false
             binding.apply {
@@ -66,8 +69,19 @@ class PokemonStatsFragment : Fragment(R.layout.fragment_pokemon_stats) {
                 pokemonStatList.adapter = adapter
                 adapter.setStats(response.stats.toMutableList())
             }
-            // TODO error handling
         })
+        exceptionHandler.setOnRetryConnectionListener(object : OnRetryConnectionListener {
+            override fun onRetry() {
+                getPokemonStats()
+            }
+        })
+    }
+
+    private fun getPokemonStats() {
+        viewLifecycleOwner.lifecycleScope.launch(exceptionHandler.coroutineExceptionHandler) {
+            binding.progressCircular.isVisible = true
+            viewModel.getPokemonStats(args.pokemonResult.url)
+        }
     }
 
     companion object {

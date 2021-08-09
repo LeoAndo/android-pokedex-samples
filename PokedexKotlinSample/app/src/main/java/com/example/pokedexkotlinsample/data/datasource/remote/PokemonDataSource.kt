@@ -4,7 +4,16 @@ import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.pokedexkotlinsample.data.api.PokemonService
+import com.example.pokedexkotlinsample.domain.exception.BadRequestException
+import com.example.pokedexkotlinsample.domain.exception.NetworkException
+import com.example.pokedexkotlinsample.domain.exception.NotFoundException
+import com.example.pokedexkotlinsample.domain.exception.UnAuthorizedException
 import com.example.pokedexkotlinsample.domain.model.PokemonResult
+import retrofit2.HttpException
+import java.net.ConnectException
+import java.net.HttpURLConnection
+import java.net.SocketTimeoutException
+import java.net.UnknownHostException
 
 /**
  * query If empty, search all pokemon`s
@@ -30,8 +39,28 @@ class PokemonDataSource(private val api: PokemonService, private val query: Stri
                 if (data.next == null) null else offset + params.loadSize // paging終了するときは、nullをセット.
             Log.d(LOG_TAG, "prevKey: $prevKey nextKey: $nextKey")
             LoadResult.Page(data = filteredData, prevKey = prevKey, nextKey = nextKey)
-        } catch (exception: Throwable) {
-            LoadResult.Error(exception)
+        } catch (e: Throwable) {
+            when (e) {
+                is HttpException -> {
+                    val message = e.localizedMessage ?: "unknown error"
+                    when (e.code()) {
+                        HttpURLConnection.HTTP_UNAUTHORIZED -> LoadResult.Error(
+                            UnAuthorizedException()
+                        )
+                        HttpURLConnection.HTTP_BAD_REQUEST -> LoadResult.Error(
+                            BadRequestException(message)
+                        )
+                        HttpURLConnection.HTTP_NOT_FOUND -> LoadResult.Error(
+                            NotFoundException(message)
+                        )
+                        else -> LoadResult.Error(e)
+                    }
+                }
+                is UnknownHostException, is ConnectException, is SocketTimeoutException -> LoadResult.Error(
+                    NetworkException()
+                )
+                else -> LoadResult.Error(e)
+            }
         }
     }
 
