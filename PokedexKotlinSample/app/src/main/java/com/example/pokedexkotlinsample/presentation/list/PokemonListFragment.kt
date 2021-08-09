@@ -13,7 +13,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.pokedexkotlinsample.R
 import com.example.pokedexkotlinsample.databinding.FragmentPokemonListBinding
-import com.example.pokedexkotlinsample.domain.model.PokemonResult
+import com.example.pokedexkotlinsample.domain.model.PokemonModel
 import com.example.pokedexkotlinsample.presentation.adapter.AppLoadStateAdapter
 import com.example.pokedexkotlinsample.presentation.adapter.PokemonAdapter
 import com.example.pokedexkotlinsample.presentation.adapter.PokemonAdapter.Companion.PRODUCT_VIEW_TYPE
@@ -33,12 +33,8 @@ class PokemonListFragment : Fragment(R.layout.fragment_pokemon_list) {
     private val binding by viewBindings(FragmentPokemonListBinding::bind)
     private val viewModel: PokemonListViewModel by viewModels()
     private val adapter =
-        PokemonAdapter { pokemonResult: PokemonResult, dominantColor: Int, pictureUrl: String ->
-            navigate(
-                pokemonResult,
-                dominantColor,
-                pictureUrl
-            )
+        PokemonAdapter { model: PokemonModel ->
+            navigate(model)
         }
     private val exceptionHandler =
         PokemonExceptionHandler(fragment = this, onUnAuthorizedAction = {})
@@ -134,12 +130,9 @@ class PokemonListFragment : Fragment(R.layout.fragment_pokemon_list) {
         })
     }
 
-    private fun navigate(pokemonResult: PokemonResult, dominantColor: Int, pictureUrl: String) {
+    private fun navigate(model: PokemonModel) {
         findNavController().navigate(
-            PokemonListFragmentDirections.toPokemonStatsFragment(
-                pokemonResult,
-                dominantColor, pictureUrl
-            )
+            PokemonListFragmentDirections.toPokemonStatsFragment(model)
         )
     }
 }

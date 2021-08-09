@@ -29,15 +29,21 @@ class PokemonStatsFragment : Fragment(R.layout.fragment_pokemon_stats), ImageLoa
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (args.dominantColor != 0) {
-            binding.apply {
-                card.setBackgroundColor(args.dominantColor)
-                pokemonItemHeight.setTextColor(args.dominantColor)
-                pokemonItemWeight.setTextColor(args.dominantColor)
-            }
-        }
+        val pokemon = args.pokemon
+
+
         binding.apply {
-            pokemonItemImage.loadImage(imageUrl = args.pictureUrl, fitCenter = true)
+            // set TextColor.
+            if (pokemon.dominantColor != 0) {
+                card.setBackgroundColor(pokemon.dominantColor)
+                pokemonItemName.setTextColor(pokemon.dominantColor)
+                pokemonItemHeight.setTextColor(pokemon.dominantColor)
+                pokemonItemWeight.setTextColor(pokemon.dominantColor)
+            }
+            // set Name.
+            pokemonItemName.text = pokemon.id + "\n" + pokemon.name
+            // load pokemon image.
+            pokemonItemImage.loadImage(imageUrl = pokemon.pictureUrl, fitCenter = true)
         }
 
         getPokemonStats()
@@ -67,11 +73,7 @@ class PokemonStatsFragment : Fragment(R.layout.fragment_pokemon_stats), ImageLoa
     private fun getPokemonStats() {
         viewLifecycleOwner.lifecycleScope.launch(exceptionHandler.coroutineExceptionHandler) {
             binding.progressCircular.isVisible = true
-            viewModel.getPokemonStats(args.pokemonResult.url)
+            viewModel.getPokemonStats(args.pokemon.url)
         }
-    }
-
-    companion object {
-        private const val LOG_TAG = "PokemonStatsFragment"
     }
 }

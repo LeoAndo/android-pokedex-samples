@@ -21,19 +21,9 @@
         android:name="com.example.pokedexkotlinsample.presentation.stats.PokemonStatsFragment"
         android:label="Stats"
         tool:layout="@layout/fragment_pokemon_stats">
-
         <argument
-            android:name="pokemon_result"
-            app:argType="com.example.pokedexkotlinsample.domain.model.PokemonResult"
-            app:nullable="false" />
-
-        <argument
-            android:name="dominant_color"
-            android:defaultValue="0"
-            app:argType="integer" />
-        <argument
-            android:name="picture_url"
-            app:argType="string"
+            android:name="pokemon"
+            app:argType="com.example.pokedexkotlinsample.domain.model.PokemonModel"
             app:nullable="false" />
     </fragment>
 </navigation>

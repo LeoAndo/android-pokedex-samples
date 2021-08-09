@@ -4,6 +4,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import androidx.paging.PagingDataAdapter
 import androidx.palette.graphics.Palette
@@ -15,13 +16,14 @@ import com.bumptech.glide.request.target.DrawableImageViewTarget
 import com.bumptech.glide.request.transition.Transition
 import com.example.pokedexkotlinsample.R
 import com.example.pokedexkotlinsample.databinding.ListItemPokemonBinding
+import com.example.pokedexkotlinsample.domain.model.PokemonModel
 import com.example.pokedexkotlinsample.domain.model.PokemonResult
+import com.example.pokedexkotlinsample.domain.model.toPokemonModel
 import com.example.pokedexkotlinsample.presentation.util.extractId
-import com.example.pokedexkotlinsample.presentation.util.getGifUrl
 import com.example.pokedexkotlinsample.presentation.util.getPictureUrl
 
 
-class PokemonAdapter(private val navigate: (PokemonResult, Int, String) -> Unit) :
+class PokemonAdapter(private val navigate: (PokemonModel) -> Unit) :
     PagingDataAdapter<PokemonResult, PokemonAdapter.VH>(DIFF_CALLBACK), ImageLoadable {
 
     override fun onBindViewHolder(holder: VH, position: Int) {
@@ -39,47 +41,49 @@ class PokemonAdapter(private val navigate: (PokemonResult, Int, String) -> Unit)
 
     inner class VH(private val binding: ListItemPokemonBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        @ColorInt
         var dominantColor: Int = 0
-        var pictureUrl = ""
         fun bind(pokemonResult: PokemonResult) {
             binding.apply {
-                pokemonItemTitle.text = pokemonResult.name.capitalize()
+                val model = pokemonResult.toPokemonModel()
+                pokemonItemTitle.text = "${model.id}\n${model.name}"
                 loadImage(this, pokemonResult)
                 root.setOnClickListener {
-                    navigate(pokemonResult, dominantColor, pictureUrl)
+                    model.also { it.dominantColor = dominantColor }
+                    navigate(model)
                 }
             }
         }
 
         private fun loadImage(binding: ListItemPokemonBinding, pokemonResult: PokemonResult) {
-            pictureUrl = pokemonResult.url.getGifUrl()
             binding.apply {
-                val requestBuilder: RequestBuilder<Drawable> = pokemonItemImage.createGlideRequestBuilder(
-                    imageUrl = pokemonResult.url.getPictureUrl(),
-                    fitCenter = true
-                )
+                val requestBuilder: RequestBuilder<Drawable> =
+                    pokemonItemImage.createGlideRequestBuilder(
+                        imageUrl = pokemonResult.url.getPictureUrl(),
+                        fitCenter = true
+                    )
                 requestBuilder.into(object : DrawableImageViewTarget(pokemonItemImage) {
-                        override fun onResourceReady(
-                            resource: Drawable,
-                            transition: Transition<in Drawable>?
-                        ) {
-                            super.onResourceReady(resource, transition)
-                            if (resource is GifDrawable) {
-                                resource.setLoopCount(3)
-                            }
-                            val bitmap = (resource as? BitmapDrawable)?.bitmap ?: return
-                            // async
-                            Palette.Builder(bitmap).generate {
-                                it?.let { palette ->
-                                    dominantColor = palette.getDominantColor(
-                                        ContextCompat.getColor(root.context, R.color.black)
-                                    )
-                                    pokemonItemImage.setBackgroundColor(dominantColor)
-                                    pokemonItemTitle.setTextColor(dominantColor)
-                                }
+                    override fun onResourceReady(
+                        resource: Drawable,
+                        transition: Transition<in Drawable>?
+                    ) {
+                        super.onResourceReady(resource, transition)
+                        if (resource is GifDrawable) {
+                            resource.setLoopCount(3)
+                        }
+                        val bitmap = (resource as? BitmapDrawable)?.bitmap ?: return
+                        // async
+                        Palette.Builder(bitmap).generate {
+                            it?.let { palette ->
+                                dominantColor = palette.getDominantColor(
+                                    ContextCompat.getColor(root.context, R.color.black)
+                                )
+                                pokemonItemImage.setBackgroundColor(dominantColor)
+                                pokemonItemTitle.setTextColor(dominantColor)
                             }
                         }
-                    })
+                    }
+                })
             }
         }
     }
