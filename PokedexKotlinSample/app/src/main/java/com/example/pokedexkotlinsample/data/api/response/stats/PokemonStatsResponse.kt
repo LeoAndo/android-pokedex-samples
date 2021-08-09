@@ -28,6 +28,6 @@ fun PokemonStatsResponse.toModel(): PokemonStatsModel {
     return PokemonStatsModel(
         weight = (weight.div(10.0).toString() + " kgs"),
         height = (height.div(10.0).toString() + " metres"),
-        stats = stats
+        stats = stats,
     )
 }

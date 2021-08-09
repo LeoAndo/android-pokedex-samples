@@ -43,6 +43,8 @@ class StatsAdapter(@ColorInt val indicatorColor: Int = 0) :
             binding.apply {
                 if (indicatorColor != 0) {
                     progressStats.setIndicatorColor(indicatorColor)
+                    statName.setTextColor(indicatorColor)
+                    statCount.setTextColor(indicatorColor)
                 }
                 CoroutineScope(Dispatchers.Main).launch {
                     var state = 0
