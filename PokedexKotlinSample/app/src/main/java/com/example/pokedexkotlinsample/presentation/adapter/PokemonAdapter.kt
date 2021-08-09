@@ -16,6 +16,7 @@ import com.example.pokedexkotlinsample.databinding.ListItemPokemonBinding
 import com.example.pokedexkotlinsample.domain.model.PokemonResult
 import com.example.pokedexkotlinsample.presentation.extractId
 import com.example.pokedexkotlinsample.presentation.getGifUrl
+import com.example.pokedexkotlinsample.presentation.getPictureUrl
 
 
 class PokemonAdapter(private val navigate: (PokemonResult, Int, String) -> Unit) :
@@ -52,7 +53,7 @@ class PokemonAdapter(private val navigate: (PokemonResult, Int, String) -> Unit)
             pictureUrl = pokemonResult.url.getGifUrl()
             binding.apply {
                 Glide.with(root)
-                    .load(pictureUrl)
+                    .load(pokemonResult.url.getPictureUrl())
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(object : DrawableImageViewTarget(pokemonItemImage) {
                         override fun onLoadFailed(errorDrawable: Drawable?) {
