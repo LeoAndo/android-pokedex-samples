@@ -3,7 +3,10 @@ sample for pokedex
 
 
 # capture
-<img src="PokedexKotlinSample/capture/capture.gif" width=320 />
+
+<video  width="320" height="240" controls>
+  <source src="https://github.com/LeoAndo/android-pokedex-samples/blob/main/PokedexKotlinSample/capture/capture.mp4" type="video/mp4">
+</video>
 
 # refs
 https://github.com/ronnieotieno/PokeApi-Pokedex<br>
