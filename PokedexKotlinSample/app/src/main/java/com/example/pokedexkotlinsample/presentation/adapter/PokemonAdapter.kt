@@ -1,10 +1,12 @@
 package com.example.pokedexkotlinsample.presentation.adapter
 
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.view.isVisible
+import androidx.core.content.ContextCompat
 import androidx.paging.PagingDataAdapter
+import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -58,19 +60,23 @@ class PokemonAdapter(private val navigate: (PokemonResult, Int, String) -> Unit)
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .error(R.drawable.ic_error)
                     .into(object : DrawableImageViewTarget(pokemonItemImage) {
-                        override fun onLoadFailed(errorDrawable: Drawable?) {
-                            super.onLoadFailed(errorDrawable)
-                            progressCircular.isVisible = false
-                        }
-
                         override fun onResourceReady(
                             resource: Drawable,
                             transition: Transition<in Drawable>?
                         ) {
                             super.onResourceReady(resource, transition)
-                            progressCircular.isVisible = false
                             if (resource is GifDrawable) {
                                 resource.setLoopCount(3)
+                            }
+                            val bitmap = (resource as? BitmapDrawable)?.bitmap ?: return
+                            // async
+                            Palette.Builder(bitmap).generate {
+                                it?.let { palette ->
+                                    dominantColor = palette.getDominantColor(
+                                        ContextCompat.getColor(root.context, R.color.white)
+                                    )
+                                    pokemonItemImage.setBackgroundColor(dominantColor)
+                                }
                             }
                         }
                     })
