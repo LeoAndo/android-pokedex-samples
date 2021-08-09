@@ -11,8 +11,9 @@ data class PokemonResult(
 
 fun PokemonResult.toPokemonModel(): PokemonModel {
     return PokemonModel(
-        id = String.format("#%05d", url.extractId()),
-        name = name.capitalize(),
+        id = url.extractId(),
+        name = name,
+        idWithName = String.format("#%05d", url.extractId()) + "\n" + name.capitalize(),
         url = url,
         pictureUrl = url.getGifUrl(),
     )

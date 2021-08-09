@@ -41,24 +41,20 @@ class PokemonStatsFragment : Fragment(R.layout.fragment_pokemon_stats), ImageLoa
                 pokemonItemWeight.setTextColor(pokemon.dominantColor)
             }
             // set Name.
-            pokemonItemName.text = pokemon.id + "\n" + pokemon.name
+            pokemonItemName.text = pokemon.idWithName
             // load pokemon image.
             pokemonItemImage.loadImage(imageUrl = pokemon.pictureUrl, fitCenter = true)
         }
 
         getPokemonStats()
 
-        viewModel.pokemonStatsResponse.observe(viewLifecycleOwner, { response ->
+        viewModel.pokemonStatsModel.observe(viewLifecycleOwner, { model ->
             binding.progressCircular.isVisible = false
             binding.apply {
-                (response.weight.div(10.0).toString() + " kgs").also { weight ->
-                    pokemonItemWeight.text = weight
-                }
-                (response.height.div(10.0).toString() + " metres").also { height ->
-                    pokemonItemHeight.text = height
-                }
+                pokemonItemWeight.text = model.weight
+                pokemonItemHeight.text = model.height
                 pokemonStatList.adapter = adapter
-                adapter.setStats(response.stats.toMutableList())
+                adapter.setStats(model.stats.toMutableList())
             }
         })
 
@@ -73,7 +69,7 @@ class PokemonStatsFragment : Fragment(R.layout.fragment_pokemon_stats), ImageLoa
     private fun getPokemonStats() {
         viewLifecycleOwner.lifecycleScope.launch(exceptionHandler.coroutineExceptionHandler) {
             binding.progressCircular.isVisible = true
-            viewModel.getPokemonStats(args.pokemon.url)
+            viewModel.getPokemonStats(args.pokemon.id)
         }
     }
 }

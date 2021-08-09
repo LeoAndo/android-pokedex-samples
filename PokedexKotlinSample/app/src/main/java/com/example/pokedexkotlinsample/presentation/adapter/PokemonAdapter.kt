@@ -46,7 +46,7 @@ class PokemonAdapter(private val navigate: (PokemonModel) -> Unit) :
         fun bind(pokemonResult: PokemonResult) {
             binding.apply {
                 val model = pokemonResult.toPokemonModel()
-                pokemonItemTitle.text = "${model.id}\n${model.name}"
+                pokemonItemTitle.text = model.idWithName
                 loadImage(this, pokemonResult)
                 root.setOnClickListener {
                     model.also { it.dominantColor = dominantColor }

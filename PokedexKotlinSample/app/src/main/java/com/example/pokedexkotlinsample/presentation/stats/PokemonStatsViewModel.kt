@@ -3,21 +3,17 @@ package com.example.pokedexkotlinsample.presentation.stats
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.pokedexkotlinsample.data.api.PokemonService
-import com.example.pokedexkotlinsample.data.api.response.stats.PokemonStatsResponse
-import com.example.pokedexkotlinsample.data.apiCall
-import com.example.pokedexkotlinsample.presentation.util.extractId
+import com.example.pokedexkotlinsample.data.repository.PokemonRepository
+import com.example.pokedexkotlinsample.domain.model.PokemonStatsModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class PokemonStatsViewModel @Inject constructor(private val api: PokemonService) :
+class PokemonStatsViewModel @Inject constructor(private val repository: PokemonRepository) :
     ViewModel() {
-    private val _pokemonStatsResponse = MutableLiveData<PokemonStatsResponse>()
-    val pokemonStatsResponse: LiveData<PokemonStatsResponse> = _pokemonStatsResponse
-    suspend fun getPokemonStats(url: String) {
-        val id = url.extractId()
-        val ret = apiCall { api.getPokemonStats(id) }
-        _pokemonStatsResponse.value = ret // TODO to Model (from Repository)
+    private val _pokemonStatsModel = MutableLiveData<PokemonStatsModel>()
+    val pokemonStatsModel: LiveData<PokemonStatsModel> = _pokemonStatsModel
+    suspend fun getPokemonStats(id: Int) {
+        _pokemonStatsModel.value = repository.getPokemonStats(id)
     }
 }

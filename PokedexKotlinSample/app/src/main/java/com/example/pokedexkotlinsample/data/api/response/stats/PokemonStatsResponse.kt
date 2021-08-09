@@ -1,5 +1,6 @@
 package com.example.pokedexkotlinsample.data.api.response.stats
 
+import com.example.pokedexkotlinsample.domain.model.PokemonStatsModel
 import java.io.Serializable
 
 data class PokemonStatsResponse(
@@ -21,4 +22,12 @@ data class PokemonStatsResponse(
     val stats: List<Stat>,
     val types: List<Type>,
     val weight: Int
-): Serializable
+) : Serializable
+
+fun PokemonStatsResponse.toModel(): PokemonStatsModel {
+    return PokemonStatsModel(
+        weight = (weight.div(10.0).toString() + " kgs"),
+        height = (height.div(10.0).toString() + " metres"),
+        stats = stats
+    )
+}
