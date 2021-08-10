@@ -1,6 +1,5 @@
 package com.example.pokedexkotlinsample.data.api.response
 
-import com.example.pokedexkotlinsample.domain.model.PokemonResult
 import java.io.Serializable
 
 data class PokemonResponse(

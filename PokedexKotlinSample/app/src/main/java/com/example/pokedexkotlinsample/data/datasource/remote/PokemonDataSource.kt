@@ -4,12 +4,12 @@ import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.pokedexkotlinsample.data.api.PokemonService
+import com.example.pokedexkotlinsample.data.api.response.toModels
 import com.example.pokedexkotlinsample.domain.exception.BadRequestException
 import com.example.pokedexkotlinsample.domain.exception.NetworkException
 import com.example.pokedexkotlinsample.domain.exception.NotFoundException
 import com.example.pokedexkotlinsample.domain.exception.UnAuthorizedException
 import com.example.pokedexkotlinsample.domain.model.PokemonModel
-import com.example.pokedexkotlinsample.domain.model.toModels
 import retrofit2.HttpException
 import java.net.ConnectException
 import java.net.HttpURLConnection

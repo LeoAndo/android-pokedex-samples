@@ -1,5 +1,6 @@
-package com.example.pokedexkotlinsample.domain.model
+package com.example.pokedexkotlinsample.data.api.response
 
+import com.example.pokedexkotlinsample.domain.model.PokemonModel
 import com.example.pokedexkotlinsample.presentation.util.extractId
 import com.example.pokedexkotlinsample.presentation.util.getGifUrl
 import java.io.Serializable
