@@ -8,7 +8,8 @@ import com.example.pokedexkotlinsample.domain.exception.BadRequestException
 import com.example.pokedexkotlinsample.domain.exception.NetworkException
 import com.example.pokedexkotlinsample.domain.exception.NotFoundException
 import com.example.pokedexkotlinsample.domain.exception.UnAuthorizedException
-import com.example.pokedexkotlinsample.domain.model.PokemonResult
+import com.example.pokedexkotlinsample.domain.model.PokemonModel
+import com.example.pokedexkotlinsample.domain.model.toModels
 import retrofit2.HttpException
 import java.net.ConnectException
 import java.net.HttpURLConnection
@@ -19,8 +20,8 @@ import java.net.UnknownHostException
  * query If empty, search all pokemon`s
  */
 class PokemonDataSource(private val api: PokemonService, private val query: String) :
-    PagingSource<Int, PokemonResult>() {
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, PokemonResult> {
+    PagingSource<Int, PokemonModel>() {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, PokemonModel> {
         val offset = params.key ?: STARTING_PAGE_INDEX
         Log.d(
             LOG_TAG,
@@ -33,7 +34,8 @@ class PokemonDataSource(private val api: PokemonService, private val query: Stri
                 data.results.filter { it.name.contains(query, true) }
             } else {
                 data.results
-            }
+            }.toModels()
+
             val prevKey = if (offset == STARTING_PAGE_INDEX) null else offset - params.loadSize
             val nextKey =
                 if (data.next == null) null else offset + params.loadSize // paging終了するときは、nullをセット.
@@ -64,7 +66,7 @@ class PokemonDataSource(private val api: PokemonService, private val query: Stri
         }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, PokemonResult>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, PokemonModel>): Int? {
         // return state.anchorPosition
         return state.anchorPosition?.let { anchorPosition ->
             // This loads starting from previous page, but since PagingConfig.initialLoadSize spans

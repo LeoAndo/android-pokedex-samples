@@ -9,12 +9,17 @@ data class PokemonResult(
     val url: String
 ) : Serializable
 
-fun PokemonResult.toPokemonModel(): PokemonModel {
-    return PokemonModel(
-        id = url.extractId(),
-        name = name,
-        idWithName = String.format("#%05d", url.extractId()) + "\n" + name.capitalize(),
-        url = url,
-        pictureUrl = url.getGifUrl(),
-    )
+fun List<PokemonResult>.toModels(): List<PokemonModel> {
+    return this.map { result ->
+        PokemonModel(
+            id = result.url.extractId(),
+            name = result.name,
+            idWithName = String.format(
+                "#%05d",
+                result.url.extractId()
+            ) + "\n" + result.name.capitalize(),
+            url = result.url,
+            pictureUrl = result.url.getGifUrl(),
+        )
+    }
 }

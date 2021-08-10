@@ -17,14 +17,11 @@ import com.bumptech.glide.request.transition.Transition
 import com.example.pokedexkotlinsample.R
 import com.example.pokedexkotlinsample.databinding.ListItemPokemonBinding
 import com.example.pokedexkotlinsample.domain.model.PokemonModel
-import com.example.pokedexkotlinsample.domain.model.PokemonResult
-import com.example.pokedexkotlinsample.domain.model.toPokemonModel
-import com.example.pokedexkotlinsample.presentation.util.extractId
 import com.example.pokedexkotlinsample.presentation.util.getPictureUrl
 
 
 class PokemonAdapter(private val navigate: (PokemonModel) -> Unit) :
-    PagingDataAdapter<PokemonResult, PokemonAdapter.VH>(DIFF_CALLBACK), ImageLoadable {
+    PagingDataAdapter<PokemonModel, PokemonAdapter.VH>(DIFF_CALLBACK), ImageLoadable {
 
     override fun onBindViewHolder(holder: VH, position: Int) {
         val data = getItem(position)!!
@@ -43,11 +40,10 @@ class PokemonAdapter(private val navigate: (PokemonModel) -> Unit) :
         RecyclerView.ViewHolder(binding.root) {
         @ColorInt
         var dominantColor: Int = 0
-        fun bind(pokemonResult: PokemonResult) {
+        fun bind(model: PokemonModel) {
             binding.apply {
-                val model = pokemonResult.toPokemonModel()
                 pokemonItemTitle.text = model.idWithName
-                loadImage(this, pokemonResult)
+                loadImage(this, model)
                 root.setOnClickListener {
                     model.also { it.dominantColor = dominantColor }
                     navigate(model)
@@ -55,11 +51,11 @@ class PokemonAdapter(private val navigate: (PokemonModel) -> Unit) :
             }
         }
 
-        private fun loadImage(binding: ListItemPokemonBinding, pokemonResult: PokemonResult) {
+        private fun loadImage(binding: ListItemPokemonBinding, model: PokemonModel) {
             binding.apply {
                 val requestBuilder: RequestBuilder<Drawable> =
                     pokemonItemImage.createGlideRequestBuilder(
-                        imageUrl = pokemonResult.url.getPictureUrl(),
+                        imageUrl = model.url.getPictureUrl(),
                         fitCenter = true
                     )
                 requestBuilder.into(object : DrawableImageViewTarget(pokemonItemImage) {
@@ -95,17 +91,12 @@ class PokemonAdapter(private val navigate: (PokemonModel) -> Unit) :
     companion object {
         const val NETWORK_VIEW_TYPE = 2
         const val PRODUCT_VIEW_TYPE = 1
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<PokemonResult>() {
-            override fun areItemsTheSame(oldItem: PokemonResult, newItem: PokemonResult): Boolean {
-                return oldItem.url.extractId() == newItem.url.extractId()
-            }
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<PokemonModel>() {
+            override fun areItemsTheSame(oldItem: PokemonModel, newItem: PokemonModel): Boolean =
+                oldItem.id == newItem.id
 
-            override fun areContentsTheSame(
-                oldItem: PokemonResult,
-                newItem: PokemonResult
-            ): Boolean {
-                return oldItem == newItem
-            }
+            override fun areContentsTheSame(oldItem: PokemonModel, newItem: PokemonModel): Boolean =
+                oldItem == newItem
         }
     }
 }
