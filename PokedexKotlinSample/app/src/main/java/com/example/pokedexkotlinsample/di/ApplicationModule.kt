@@ -1,16 +1,19 @@
 package com.example.pokedexkotlinsample.di
 
+import android.content.Context
 import com.example.pokedexkotlinsample.BuildConfig
+import com.example.pokedexkotlinsample.data.api.PokemonService
+import com.example.pokedexkotlinsample.data.repository.PokemonRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import com.example.pokedexkotlinsample.data.api.PokemonService
-import com.example.pokedexkotlinsample.data.repository.PokemonRepository
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.File
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -20,9 +23,11 @@ object ApplicationModule {
 
     @Provides
     @Singleton
-    fun providesOkHttpClient(): OkHttpClient {
+    fun providesOkHttpClient(cache: Cache): OkHttpClient {
         val okHttpClient = OkHttpClient.Builder()
             .connectTimeout(30, TimeUnit.SECONDS)
+            .addInterceptor(cacheInterceptor)
+            .cache(cache)
         if (BuildConfig.DEBUG) {
             okHttpClient.addInterceptor(HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
@@ -45,5 +50,25 @@ object ApplicationModule {
     @Provides
     fun providePokemonRepository(api: PokemonService): PokemonRepository {
         return PokemonRepository(api)
+    }
+
+    /*Caching data */
+    @Provides
+    @Singleton
+    fun providePokemonCache(@ApplicationContext context: Context): Cache {
+        val cacheSize: Long = 10 * 1024 * 1024
+        return Cache(
+            File(context.cacheDir, "pokemon_cache"), cacheSize
+        )
+    }
+
+    private val cacheInterceptor = Interceptor { chain ->
+        val response: Response = chain.proceed(chain.request())
+        val cacheControl = CacheControl.Builder()
+            .maxAge(14, TimeUnit.DAYS)
+            .build()
+        response.newBuilder()
+            .header("Cache-Control", cacheControl.toString())
+            .build()
     }
 }
