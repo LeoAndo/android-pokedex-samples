@@ -25,36 +25,31 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             PokedexComposeSampleTheme {
-                Greeting()
-            }
-        }
-    }
-}
-
-@Composable
-fun Greeting() {
-    val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "pokemon_list_screen"){
-        composable("pokemon_list_screen"){
-            PokemonListScreen(navController = navController)
-        }
-        composable(
-            "pokemon_detail_screen/{dominantColor}/{pokemonName}",
-            arguments = listOf(
-                navArgument("dominantColor"){
-                    type = NavType.IntType
-                },
-                navArgument("pokemonName"){
-                    type = NavType.StringType
+                val navController = rememberNavController()
+                NavHost(navController = navController, startDestination = "pokemon_list_screen"){
+                    composable("pokemon_list_screen"){
+                        PokemonListScreen(navController = navController)
+                    }
+                    composable(
+                        "pokemon_detail_screen/{dominantColor}/{pokemonName}",
+                        arguments = listOf(
+                            navArgument("dominantColor"){
+                                type = NavType.IntType
+                            },
+                            navArgument("pokemonName"){
+                                type = NavType.StringType
+                            }
+                        )
+                    ){
+                        val dominantColor = remember {
+                            val color = it.arguments?.getInt("dominantColor")
+                            color?.let { Color(it) } ?: Color.White
+                        }
+                        val pokemonName = remember {
+                            it.arguments?.getString("pokemonName").orEmpty()
+                        }
+                    }
                 }
-            )
-        ){
-            val dominantColor = remember {
-                val color = it.arguments?.getInt("dominantColor")
-                color?.let { Color(it) } ?: Color.White
-            }
-            val pokemonName = remember {
-                it.arguments?.getString("pokemonName").orEmpty()
             }
         }
     }
@@ -64,6 +59,6 @@ fun Greeting() {
 @Composable
 fun DefaultPreview() {
     PokedexComposeSampleTheme {
-        Greeting()
+        // PokemonListScreen()
     }
 }
