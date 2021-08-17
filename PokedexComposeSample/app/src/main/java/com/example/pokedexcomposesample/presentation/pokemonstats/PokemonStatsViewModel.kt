@@ -1,7 +1,6 @@
-package com.example.pokedexcomposesample.pokemonstats
+package com.example.pokedexcomposesample.presentation.pokemonstats
 
 import androidx.lifecycle.ViewModel
-import com.example.pokedexcomposesample.data.api.response.stats.PokemonStatsResponse
 import com.example.pokedexcomposesample.data.api.response.stats.toModel
 import com.example.pokedexcomposesample.data.repository.PokemonRepository
 import com.example.pokedexkotlinsample.domain.ApiResult

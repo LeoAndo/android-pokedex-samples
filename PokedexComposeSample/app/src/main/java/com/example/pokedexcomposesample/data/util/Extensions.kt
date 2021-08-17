@@ -1,4 +1,4 @@
-package com.example.pokedexcomposesample.util
+package com.example.pokedexcomposesample.data
 
 fun String.extractId() = this.substringAfter("pokemon").replace("/", "").toInt()
 

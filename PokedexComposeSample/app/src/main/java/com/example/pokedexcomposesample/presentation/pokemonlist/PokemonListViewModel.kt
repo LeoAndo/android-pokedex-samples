@@ -1,10 +1,8 @@
-package com.example.pokedexcomposesample.pokemonlist
+package com.example.pokedexcomposesample.presentation.pokemonlist
 
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.text.createTextLayoutResult
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.pokedexcomposesample.data.api.response.toModels
 import com.example.pokedexcomposesample.data.repository.PAGE_SIZE
 import com.example.pokedexcomposesample.data.repository.PokemonRepository
@@ -35,23 +33,26 @@ class PokemonListViewModel @Inject constructor(
         loadPokemonPaginated()
     }
 
-    fun searchPokemonList(query: String){
-        val listToSearch = if(isSearchStarting){
+    fun searchPokemonList(query: String) {
+        val listToSearch = if (isSearchStarting) {
             pokemons.value
         } else {
             cachedPokemonList
         }
         viewModelScope.launch(Dispatchers.Default) {
-            if(query.isEmpty()){
+            if (query.isEmpty()) {
                 pokemons.value = cachedPokemonList
                 isSearching.value = false
                 isSearchStarting = true
                 return@launch
             }
             val results = listToSearch.filter {
-                it.name.contains(query.trim(), ignoreCase = true) || it.id.toString() == query.trim()
+                it.name.contains(
+                    query.trim(),
+                    ignoreCase = true
+                ) || it.id.toString() == query.trim()
             }
-            if(isSearchStarting){
+            if (isSearchStarting) {
                 cachedPokemonList = pokemons.value
                 isSearchStarting = false
             }

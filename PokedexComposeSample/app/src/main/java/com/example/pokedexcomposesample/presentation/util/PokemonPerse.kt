@@ -1,4 +1,4 @@
-package com.example.pokedexcomposesample.util
+package com.example.pokedexcomposesample.presentation.util
 
 import androidx.compose.ui.graphics.Color
 import com.example.pokedexcomposesample.data.api.response.stats.Stat

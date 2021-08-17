@@ -1,8 +1,8 @@
 package com.example.pokedexcomposesample.data.api.response
 
 import com.example.pokedexcomposesample.domain.model.PokemonModel
-import com.example.pokedexcomposesample.util.extractId
-import com.example.pokedexcomposesample.util.getPictureUrl
+import com.example.pokedexcomposesample.data.extractId
+import com.example.pokedexcomposesample.data.getPictureUrl
 import java.io.Serializable
 import java.util.*
 
