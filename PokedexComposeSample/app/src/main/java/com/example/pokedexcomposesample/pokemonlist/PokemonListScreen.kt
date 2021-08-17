@@ -178,7 +178,7 @@ fun PokemonEntry(
             )
             .clickable {
                 navController.navigate(
-                    "pokemon_detail_screen/${dominantColor.toArgb()}/${model.name}"
+                    "pokemon_detail_screen/${dominantColor.toArgb()}/${model.idWithName}/${model.id}"
                 )
             }
     ) {

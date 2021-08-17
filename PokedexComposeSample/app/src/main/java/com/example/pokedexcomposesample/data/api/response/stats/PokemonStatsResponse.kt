@@ -1,7 +1,6 @@
 package com.example.pokedexcomposesample.data.api.response.stats
 
-import com.example.pokedexcomposesample.data.api.response.stats.Ability
-import com.example.pokedexkotlinsample.domain.model.PokemonStatsModel
+import com.example.pokedexcomposesample.domain.model.PokemonStatsModel
 import java.io.Serializable
 
 data class PokemonStatsResponse(
@@ -30,5 +29,6 @@ fun PokemonStatsResponse.toModel(): PokemonStatsModel {
         weight = (weight.div(10.0).toString() + " kgs"),
         height = (height.div(10.0).toString() + " metres"),
         stats = stats,
+        sprites = sprites
     )
 }

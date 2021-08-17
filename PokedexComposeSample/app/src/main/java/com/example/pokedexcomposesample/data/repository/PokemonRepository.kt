@@ -5,7 +5,6 @@ import com.example.pokedexcomposesample.data.api.response.PokemonResponse
 import com.example.pokedexcomposesample.data.api.response.stats.PokemonStatsResponse
 import com.example.pokedexcomposesample.data.safeApiCall
 import com.example.pokedexkotlinsample.domain.ApiResult
-import dagger.hilt.android.scopes.ActivityScoped
 import javax.inject.Inject
 
 
