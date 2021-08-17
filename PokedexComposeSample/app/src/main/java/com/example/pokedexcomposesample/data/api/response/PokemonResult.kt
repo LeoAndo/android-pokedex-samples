@@ -2,8 +2,9 @@ package com.example.pokedexcomposesample.data.api.response
 
 import com.example.pokedexcomposesample.domain.model.PokemonModel
 import com.example.pokedexcomposesample.util.extractId
-import com.example.pokedexcomposesample.util.getGifUrl
+import com.example.pokedexcomposesample.util.getPictureUrl
 import java.io.Serializable
+import java.util.*
 
 data class PokemonResult(
     val name: String,
@@ -18,9 +19,9 @@ fun List<PokemonResult>.toModels(): List<PokemonModel> {
             idWithName = String.format(
                 "#%05d",
                 result.url.extractId()
-            ) + "\n" + result.name.capitalize(),
+            ) + "\n" + result.name.capitalize(Locale.ROOT),
             url = result.url,
-            pictureUrl = result.url.getGifUrl(),
+            pictureUrl = result.url.getPictureUrl(),
         )
     }
 }
