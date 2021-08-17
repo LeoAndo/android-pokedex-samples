@@ -34,6 +34,7 @@ import timber.log.Timber
 
 @Composable
 fun PokemonListScreen(
+    viewModel: PokemonListViewModel = hiltViewModel(),
     navController: NavController
 ) {
     Surface(
@@ -55,7 +56,7 @@ fun PokemonListScreen(
                     .fillMaxWidth()
                     .padding(16.dp)
             ) {
-
+                viewModel.searchPokemonList(it)
             }
             Spacer(modifier = Modifier.height(16.dp))
             PokemonList(navController = navController)
@@ -118,6 +119,7 @@ fun PokemonList(
     val loadError by remember { viewModel.loadError }
     val isLoading by remember { viewModel.isLoading }
     val endReached by remember { viewModel.endReached }
+    val isSearching by remember { viewModel.isSearching }
 
     LazyColumn(contentPadding = PaddingValues(16.dp)) {
         val itemCount = if (pokemons.size % 2 == 0) {
@@ -126,7 +128,7 @@ fun PokemonList(
             pokemons.size / 2 + 1
         }
         items(itemCount) {
-            if (it >= itemCount - 1 && !endReached) {
+            if (it >= itemCount - 1 && !endReached && !isLoading && !isSearching) {
                 viewModel.loadPokemonPaginated()
             }
             PokemonRow(rowIndex = it, models = pokemons, navController = navController)

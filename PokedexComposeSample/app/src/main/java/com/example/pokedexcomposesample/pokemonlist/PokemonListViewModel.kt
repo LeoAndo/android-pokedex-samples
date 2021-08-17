@@ -1,14 +1,17 @@
 package com.example.pokedexcomposesample.pokemonlist
 
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.text.createTextLayoutResult
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.pokedexcomposesample.data.api.response.toModels
 import com.example.pokedexcomposesample.data.repository.PAGE_SIZE
 import com.example.pokedexcomposesample.data.repository.PokemonRepository
 import com.example.pokedexcomposesample.domain.model.PokemonModel
 import com.example.pokedexkotlinsample.domain.ApiResult
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,8 +27,37 @@ class PokemonListViewModel @Inject constructor(
     var isLoading = mutableStateOf(false)
     var endReached = mutableStateOf(false)
 
+    private var cachedPokemonList = listOf<PokemonModel>()
+    private var isSearchStarting = true
+    var isSearching = mutableStateOf(false)
+
     init {
         loadPokemonPaginated()
+    }
+
+    fun searchPokemonList(query: String){
+        val listToSearch = if(isSearchStarting){
+            pokemons.value
+        } else {
+            cachedPokemonList
+        }
+        viewModelScope.launch(Dispatchers.Default) {
+            if(query.isEmpty()){
+                pokemons.value = cachedPokemonList
+                isSearching.value = false
+                isSearchStarting = true
+                return@launch
+            }
+            val results = listToSearch.filter {
+                it.name.contains(query.trim(), ignoreCase = true) || it.id.toString() == query.trim()
+            }
+            if(isSearchStarting){
+                cachedPokemonList = pokemons.value
+                isSearchStarting = false
+            }
+            pokemons.value = results
+            isSearching.value = true
+        }
     }
 
     fun loadPokemonPaginated() {
