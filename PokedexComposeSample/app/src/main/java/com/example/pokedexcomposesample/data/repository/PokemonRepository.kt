@@ -8,7 +8,8 @@ import com.example.pokedexkotlinsample.domain.ApiResult
 import dagger.hilt.android.scopes.ActivityScoped
 import javax.inject.Inject
 
-@ActivityScoped
+
+const val PAGE_SIZE = 20
 class PokemonRepository @Inject constructor(
     private val api: PokemonService
 ) {
