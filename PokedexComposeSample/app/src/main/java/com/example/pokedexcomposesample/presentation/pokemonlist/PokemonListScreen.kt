@@ -1,4 +1,4 @@
-package com.example.pokedexcomposesample.pokemonlist
+package com.example.pokedexcomposesample.presentation.pokemonlist
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -10,8 +10,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
+import androidx.compose.ui.Alignment.Companion.CenterEnd
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
+import androidx.compose.ui.Alignment.Companion.End
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
@@ -129,7 +132,9 @@ fun PokemonList(
         }
         items(itemCount) {
             if (it >= itemCount - 1 && !endReached && !isLoading && !isSearching) {
-                viewModel.loadPokemonPaginated()
+                LaunchedEffect(key1 = true, block = {
+                    viewModel.loadPokemonPaginated()
+                })
             }
             PokemonRow(rowIndex = it, models = pokemons, navController = navController)
         }
@@ -154,8 +159,7 @@ fun PokemonList(
 fun PokemonEntry(
     model: PokemonModel,
     navController: NavController,
-    modifier: Modifier = Modifier,
-    viewModel: PokemonListViewModel = hiltViewModel()
+    modifier: Modifier = Modifier
 ) {
     val defaultDominantColor = MaterialTheme.colors.surface
     val dominantColor by remember {
@@ -189,13 +193,13 @@ fun PokemonEntry(
             Image(
                 painter = painter, contentDescription = model.idWithName,
                 modifier = Modifier
-                    .size(200.dp)
+                    .size(120.dp)
                     .align(CenterHorizontally)
             )
             Text(
                 text = model.idWithName,
                 fontFamily = RobotoCondensed,
-                fontSize = 20.sp,
+                fontSize = 16.sp,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
             )
