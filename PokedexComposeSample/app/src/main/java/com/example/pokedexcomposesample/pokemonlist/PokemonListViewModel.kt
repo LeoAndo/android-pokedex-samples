@@ -1,13 +1,8 @@
 package com.example.pokedexcomposesample.pokemonlist
 
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.palette.graphics.Palette
 import com.example.pokedexcomposesample.data.api.response.toModels
 import com.example.pokedexcomposesample.data.repository.PAGE_SIZE
 import com.example.pokedexcomposesample.data.repository.PokemonRepository
@@ -50,15 +45,6 @@ class PokemonListViewModel @Inject constructor(
                 is ApiResult.NetworkError -> {
                     loadError.value = "NetworkError!"
                 }
-            }
-        }
-    }
-
-    fun calcDominantColor(drawable: Drawable, onFinish: (Color) -> Unit) {
-        val bitmap = (drawable as BitmapDrawable).bitmap.copy(Bitmap.Config.ARGB_8888, true)
-        Palette.from(bitmap).generate { palette ->
-            palette?.dominantSwatch?.rgb?.let {
-                onFinish(Color(it))
             }
         }
     }
