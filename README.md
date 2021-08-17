@@ -11,12 +11,15 @@ The following functions have been added based on [PokeApi-Pokedex](https://githu
 <img width="686" alt="127751156-0638bd97-e532-43e9-be12-e758a7118141" src="https://user-images.githubusercontent.com/16476224/128699878-53516576-2312-4abf-bbd0-5e06aca3031a.png">
 
 
-# kotlin 
+# capture 
 <img src="PokedexKotlinSample/capture/capture.gif" width=320 />
+
+# code(kotlin)
+
 https://github.com/LeoAndo/android-pokedex-samples/tree/main/PokedexKotlinSample
 
-# jetpackcompose
-<img src="https://user-images.githubusercontent.com/16476224/129724802-eb00ca1a-d46c-410a-9ebc-aa93f9a44cc8.gif" width=320/>
+# code(jetpackcompose)
+
 https://github.com/LeoAndo/android-pokedex-samples/tree/main/PokedexComposeSample
 
 # Web API
