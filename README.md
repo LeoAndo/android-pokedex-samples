@@ -23,6 +23,7 @@ https://github.com/ronnieotieno/PokeApi-Pokedex<br>
 https://github.com/zsoltk/compose-pokedex<br>
 https://github.com/mrcsxsiq/Kotlin-Pokedex<br>
 https://github.com/zsoltk/compose-router<br>
+https://github.com/philipplackner/JetpackComposePokedex<br>
 https://www.pokemon.com/us/pokedex/<br>
 https://pokeapi.co/docs/v2<br>
 [API Wrapper Library](https://github.com/PokeAPI/pokekotlin)<br>
