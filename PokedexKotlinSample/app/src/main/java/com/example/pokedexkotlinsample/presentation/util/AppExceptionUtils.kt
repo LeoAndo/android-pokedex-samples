@@ -9,13 +9,6 @@ import com.example.pokedexkotlinsample.domain.exception.NotFoundException
 import com.example.pokedexkotlinsample.domain.exception.UnAuthorizedException
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-internal sealed interface RetryState
-object RetryStateNone : RetryState
-object RetryState1 : RetryState
-object RetryState2 : RetryState
-object RetryState3 : RetryState
-object RetryState4 : RetryState
-
 internal interface OnRetryConnectionListener {
     fun onRetry()
 }
