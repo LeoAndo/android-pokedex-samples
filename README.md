@@ -5,6 +5,8 @@ The following functions have been added based on [PokeApi-Pokedex](https://githu
   - [Pull Request](https://github.com/LeoAndo/android-pokedex-samples/pull/8)
 - show Gif animation (Stats screen)
 - show Pokemon Id.
+- un used androidx palette library
+  - [because palette library use Deprecated API(Aysnc Task)](https://github.com/LeoAndo/android-palette-samples#overview)
 
 # MAD Score
 
