@@ -1,6 +1,5 @@
 package com.example.pokedexkotlinsample.domain.model
 
-import androidx.annotation.ColorInt
 import java.io.Serializable
 
 data class PokemonModel(
@@ -8,6 +7,5 @@ data class PokemonModel(
     val name: String,
     val idWithName: String, // 表示用
     val url: String,
-    @ColorInt var dominantColor: Int = 0,
     val pictureUrl: String
 ) : Serializable

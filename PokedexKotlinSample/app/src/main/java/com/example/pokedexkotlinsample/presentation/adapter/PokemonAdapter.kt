@@ -4,17 +4,13 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.annotation.ColorInt
-import androidx.core.content.ContextCompat
 import androidx.paging.PagingDataAdapter
-import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.target.DrawableImageViewTarget
 import com.bumptech.glide.request.transition.Transition
-import com.example.pokedexkotlinsample.R
 import com.example.pokedexkotlinsample.databinding.ListItemPokemonBinding
 import com.example.pokedexkotlinsample.domain.model.PokemonModel
 import com.example.pokedexkotlinsample.presentation.util.getPictureUrl
@@ -38,14 +34,11 @@ class PokemonAdapter(private val navigate: (PokemonModel) -> Unit) :
 
     inner class VH(private val binding: ListItemPokemonBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        @ColorInt
-        var dominantColor: Int = 0
         fun bind(model: PokemonModel) {
             binding.apply {
                 pokemonItemTitle.text = model.idWithName
                 loadImage(this, model)
                 root.setOnClickListener {
-                    model.also { it.dominantColor = dominantColor }
                     navigate(model)
                 }
             }
@@ -68,16 +61,6 @@ class PokemonAdapter(private val navigate: (PokemonModel) -> Unit) :
                             resource.setLoopCount(3)
                         }
                         val bitmap = (resource as? BitmapDrawable)?.bitmap ?: return
-                        // async
-                        Palette.Builder(bitmap).generate {
-                            it?.let { palette ->
-                                dominantColor = palette.getDominantColor(
-                                    ContextCompat.getColor(root.context, R.color.black)
-                                )
-                                pokemonItemImage.setBackgroundColor(dominantColor)
-                                pokemonItemTitle.setTextColor(dominantColor)
-                            }
-                        }
                     }
                 })
             }
