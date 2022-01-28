@@ -30,16 +30,9 @@ class PokemonStatsFragment : Fragment(R.layout.fragment_pokemon_stats), ImageLoa
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val pokemon = args.pokemon
-        adapter = StatsAdapter(pokemon.dominantColor)
+        adapter = StatsAdapter()
 
         binding.apply {
-            // set TextColor.
-            if (pokemon.dominantColor != 0) {
-                card.setBackgroundColor(pokemon.dominantColor)
-                pokemonItemName.setTextColor(pokemon.dominantColor)
-                pokemonItemHeight.setTextColor(pokemon.dominantColor)
-                pokemonItemWeight.setTextColor(pokemon.dominantColor)
-            }
             // set Name.
             pokemonItemName.text = pokemon.idWithName
             // load pokemon image.
@@ -48,7 +41,7 @@ class PokemonStatsFragment : Fragment(R.layout.fragment_pokemon_stats), ImageLoa
 
         getPokemonStats()
 
-        viewModel.pokemonStatsModel.observe(viewLifecycleOwner, { model ->
+        viewModel.pokemonStatsModel.observe(viewLifecycleOwner) { model ->
             binding.progressCircular.isVisible = false
             binding.apply {
                 pokemonItemWeight.text = model.weight
@@ -56,7 +49,7 @@ class PokemonStatsFragment : Fragment(R.layout.fragment_pokemon_stats), ImageLoa
                 pokemonStatList.adapter = adapter
                 adapter.setStats(model.stats.toMutableList())
             }
-        })
+        }
 
         exceptionHandler.setOnRetryConnectionListener(object : OnRetryConnectionListener {
             override fun onRetry() {
